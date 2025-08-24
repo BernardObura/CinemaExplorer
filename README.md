@@ -70,8 +70,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 Created by Bernard Obura - A passionate developer creating amazing web experiences.
 
-- GitHub: [Beranrd Obura](https://github.com/BernardObura)
-- Website: https://bernardobura.vercel.app/
+- GitHub: [Bernard Obura](https://github.com/BernardObura)
+- Website: bernardobura.vercel.app
 
 ## Acknowledgments
 
