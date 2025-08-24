@@ -22,11 +22,16 @@ const Index = () => {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-  // Check API key on mount
-  useEffect(() => {
+  // Check API key on mount and when it changes
+  const checkApiKey = useCallback(() => {
     const apiKey = tmdbService.getApiKey();
+    console.log('Checking API key:', apiKey ? 'Present' : 'Missing');
     setHasApiKey(!!apiKey);
   }, []);
+
+  useEffect(() => {
+    checkApiKey();
+  }, [checkApiKey]);
 
   const fetchMovies = useCallback(async (page: number = 1, query?: string) => {
     if (!tmdbService.getApiKey()) {
@@ -103,7 +108,7 @@ const Index = () => {
   if (!hasApiKey) {
     return (
       <div className="min-h-screen bg-gradient-dark">
-        <Header onSearch={setSearchQuery} searchQuery={searchQuery} />
+        <Header onSearch={setSearchQuery} searchQuery={searchQuery} onApiKeyChange={checkApiKey} />
         <main className="container py-12">
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
             <Film className="h-24 w-24 text-cinema-gold" />
@@ -129,7 +134,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
-      <Header onSearch={setSearchQuery} searchQuery={searchQuery} />
+      <Header onSearch={setSearchQuery} searchQuery={searchQuery} onApiKeyChange={checkApiKey} />
       
       <main className="container py-8">
         {/* Hero Section */}

@@ -9,20 +9,23 @@ import { toast } from '@/components/ui/use-toast';
 interface HeaderProps {
   onSearch: (query: string) => void;
   searchQuery: string;
+  onApiKeyChange?: () => void;
 }
 
-export function Header({ onSearch, searchQuery }: HeaderProps) {
+export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [apiKey, setApiKey] = useState(tmdbService.getApiKey() || '');
 
   const handleApiKeySubmit = () => {
     if (apiKey.trim()) {
       tmdbService.setApiKey(apiKey.trim());
+      console.log('API key saved:', apiKey.trim().substring(0, 8) + '...');
       toast({
         title: "API Key Saved",
         description: "Your TMDB API key has been saved locally.",
       });
       setIsSettingsOpen(false);
+      onApiKeyChange?.();
     }
   };
 
