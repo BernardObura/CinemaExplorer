@@ -1,73 +1,80 @@
-# Welcome to your Lovable project
 
-## Project info
+# CinemaExplorer
 
-**URL**: https://lovable.dev/projects/1aab91e9-6a7c-4fe7-9579-a993a8b3ab59
+A modern movie discovery application that lets you explore popular and trending movies from around the world. Built with React and powered by The Movie Database (TMDB) API.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- 🎬 Browse popular and trending movies
+- 🔍 Search for specific movies
+- 📱 Responsive design for all devices
+- 🎨 Modern UI with smooth animations
+- 📊 Detailed movie information including ratings, cast, and reviews
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1aab91e9-6a7c-4fe7-9579-a993a8b3ab59) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js (v16 or higher)
+- npm or yarn
+- TMDB API key (get one at [https://www.themoviedb.org/settings/api](https://www.themoviedb.org/settings/api))
 
-**Use your preferred IDE**
+### Installation
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. Clone the repository:
+```bash
+git clone <YOUR_REPO_URL>
+cd CinemaExplorer
+```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. Install dependencies:
+```bash
+npm install
+```
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and navigate to `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+5. Add your TMDB API key in the app settings to start browsing movies
 
-**Use GitHub Codespaces**
+## Tech Stack
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Frontend**: React 18 with TypeScript
+- **Styling**: Tailwind CSS with custom design system
+- **Build Tool**: Vite
+- **UI Components**: Radix UI primitives
+- **API**: The Movie Database (TMDB)
+- **Backend**: Supabase (for future features)
+- **Deployment**: Ready for deployment on any static hosting service
 
-## What technologies are used for this project?
+## Usage
 
-This project is built with:
+1. Get your free API key from [The Movie Database](https://www.themoviedb.org/settings/api)
+2. Open the app and click the settings icon in the header
+3. Enter your TMDB API key and save
+4. Start exploring movies!
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Contributing
 
-## How can I deploy this project?
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-Simply open [Lovable](https://lovable.dev/projects/1aab91e9-6a7c-4fe7-9579-a993a8b3ab59) and click on Share -> Publish.
+## License
 
-## Can I connect a custom domain to my Lovable project?
+This project is open source and available under the [MIT License](LICENSE).
 
-Yes, you can!
+## Developer
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Created by [Your Name] - A passionate developer creating amazing web experiences.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- GitHub: [@your-github-username](https://github.com/your-github-username)
+- Twitter: [@your-twitter](https://twitter.com/your-twitter)
+- Website: [your-website.com](https://your-website.com)
+
+## Acknowledgments
+
+- Movie data provided by [The Movie Database (TMDB)](https://www.themoviedb.org/)
+- Icons by [Lucide](https://lucide.dev/)
