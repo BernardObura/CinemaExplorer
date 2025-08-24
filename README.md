@@ -68,11 +68,10 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Developer
 
-Created by [Your Name] - A passionate developer creating amazing web experiences.
+Created by Bernard Obura - A passionate developer creating amazing web experiences.
 
-- GitHub: [@your-github-username](https://github.com/your-github-username)
-- Twitter: [@your-twitter](https://twitter.com/your-twitter)
-- Website: [your-website.com](https://your-website.com)
+- GitHub: [Beranrd Obura](https://github.com/BernardObura)
+- Website: https://bernardobura.vercel.app/
 
 ## Acknowledgments
 
