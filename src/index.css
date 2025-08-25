@@ -6,51 +6,52 @@
 
 @layer base {
   :root {
-    /* Cinema Dark Theme - Deep space blues and golden accents */
-    --background: 220 30% 5%;
+    /* Cinema Dark Theme - Solid colors */
+    --background: 15 15% 8%;
     --foreground: 210 40% 98%;
 
-    --card: 220 25% 8%;
+    --card: 20 20% 12%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 220 25% 8%;
+    --popover: 20 20% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 45 100% 65%;
-    --primary-foreground: 220 30% 5%;
+    --primary: 45 95% 58%;
+    --primary-foreground: 15 15% 8%;
 
-    --secondary: 220 20% 15%;
+    --secondary: 20 15% 18%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 15% 12%;
+    --muted: 20 10% 16%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 260 60% 45%;
+    --accent: 260 85% 55%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 75% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 12%;
-    --ring: 45 100% 65%;
+    --border: 20 15% 22%;
+    --input: 20 10% 16%;
+    --ring: 45 95% 58%;
 
     --radius: 0.75rem;
 
-    /* Cinema specific colors */
-    --cinema-gold: 45 100% 65%;
-    --cinema-blue: 220 30% 5%;
-    --cinema-purple: 260 60% 45%;
-    --cinema-gray: 220 15% 12%;
+    /* Cinema specific colors - Solid */
+    --cinema-gold: 45 95% 58%;
+    --cinema-blue: 220 85% 25%;
+    --cinema-purple: 260 85% 55%;
+    --cinema-gray: 20 10% 16%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--cinema-purple)), hsl(var(--cinema-gold)));
-    --gradient-dark: linear-gradient(180deg, hsl(var(--background)), hsl(220 35% 3%));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(220 20% 10%));
+    /* Solid backgrounds */
+    --solid-primary: hsl(var(--primary));
+    --solid-secondary: hsl(var(--secondary));
+    --solid-accent: hsl(var(--accent));
+    --solid-card: hsl(var(--card));
     
     /* Shadows */
-    --shadow-glow: 0 0 30px hsl(var(--cinema-gold) / 0.3);
-    --shadow-card: 0 10px 30px -10px hsl(220 30% 2% / 0.5);
+    --shadow-glow: 0 4px 20px hsl(var(--cinema-gold) / 0.25);
+    --shadow-card: 0 8px 25px -8px hsl(0 0% 0% / 0.4);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -58,33 +59,49 @@
   }
 
   .light {
-    --background: 210 20% 98%;
-    --foreground: 220 30% 5%;
+    --background: 0 0% 98%;
+    --foreground: 220 30% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 30% 5%;
+    --card-foreground: 220 30% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 5%;
+    --popover-foreground: 220 30% 8%;
 
-    --primary: 45 100% 50%;
-    --primary-foreground: 220 30% 5%;
+    --primary: 45 85% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 220 30% 5%;
+    --secondary: 210 40% 94%;
+    --secondary-foreground: 220 30% 8%;
 
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 260 60% 45%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 260 85% 55%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 75% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
+    --border: 214 32% 88%;
     --input: 214 32% 91%;
-    --ring: 45 100% 50%;
+    --ring: 45 85% 45%;
+
+    /* Cinema specific colors - Light mode */
+    --cinema-gold: 45 85% 45%;
+    --cinema-blue: 220 85% 25%;
+    --cinema-purple: 260 85% 55%;
+    --cinema-gray: 210 40% 96%;
+    
+    /* Solid backgrounds - Light mode */
+    --solid-primary: hsl(var(--primary));
+    --solid-secondary: hsl(var(--secondary));
+    --solid-accent: hsl(var(--accent));
+    --solid-card: hsl(var(--card));
+    
+    /* Shadows - Light mode */
+    --shadow-glow: 0 4px 20px hsl(var(--cinema-gold) / 0.2);
+    --shadow-card: 0 8px 25px -8px hsl(0 0% 0% / 0.15);
   }
 }
 

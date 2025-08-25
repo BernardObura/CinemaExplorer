@@ -87,6 +87,14 @@ class TMDBService {
     return this.makeRequest(`/movie/${movieId}`);
   }
 
+  async getTopRatedMovies(page: number = 1): Promise<TMDBResponse<Movie>> {
+    return this.makeRequest(`/movie/top_rated?page=${page}`);
+  }
+
+  async getUpcomingMovies(page: number = 1): Promise<TMDBResponse<Movie>> {
+    return this.makeRequest(`/movie/upcoming?page=${page}`);
+  }
+
   async getTrendingMovies(timeWindow: 'day' | 'week' = 'week', page: number = 1): Promise<TMDBResponse<Movie>> {
     return this.makeRequest(`/trending/movie/${timeWindow}?page=${page}`);
   }

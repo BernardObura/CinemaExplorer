@@ -1,14 +1,15 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { MovieCard } from '@/components/MovieCard';
 import { MovieDetail } from '@/components/MovieDetail';
 import { LoadingGrid } from '@/components/LoadingGrid';
+import { MovieCategories } from '@/components/MovieCategories';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Film, Sparkles, TrendingUp, AlertCircle } from 'lucide-react';
-import { Movie, tmdbService, TMDBResponse } from '@/services/tmdbApi';
-import { toast } from '@/components/ui/use-toast';
+import { AlertCircle, Film } from 'lucide-react';
+import { Movie, tmdbService } from '@/services/tmdbApi';
 import { useDebounce } from '@/hooks/useDebounce';
+import { toast } from '@/hooks/use-toast';
 
 const Index = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
@@ -17,44 +18,49 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [activeTab, setActiveTab] = useState<'popular' | 'trending'>('popular');
+  const [activeCategory, setActiveCategory] = useState<string>('popular');
   const [hasApiKey, setHasApiKey] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
-  // Check API key on mount and when it changes
-  const checkApiKey = useCallback(() => {
+  // Check API key
+  const checkApiKey = () => {
     const apiKey = tmdbService.getApiKey();
-    console.log('Checking API key:', apiKey ? 'Present' : 'Missing');
     setHasApiKey(!!apiKey);
-  }, []);
+  };
 
   useEffect(() => {
     checkApiKey();
-  }, [checkApiKey]);
+  }, []);
 
-  const fetchMovies = useCallback(async (page: number = 1, query?: string) => {
-    if (!tmdbService.getApiKey()) {
-      setHasApiKey(false);
-      return;
-    }
-
+  const fetchMovies = async (query: string = '', category: string = 'popular', page: number = 1) => {
+    if (!hasApiKey) return;
+    
     setLoading(true);
     try {
-      let response: TMDBResponse<Movie>;
-      
-      if (query && query.trim()) {
-        response = await tmdbService.searchMovies(query.trim(), page);
-      } else if (activeTab === 'trending') {
-        response = await tmdbService.getTrendingMovies('week', page);
+      let response;
+      if (query.trim()) {
+        response = await tmdbService.searchMovies(query, page);
       } else {
-        response = await tmdbService.getPopularMovies(page);
+        switch (category) {
+          case 'trending':
+            response = await tmdbService.getTrendingMovies('week', page);
+            break;
+          case 'top_rated':
+            response = await tmdbService.getTopRatedMovies(page);
+            break;
+          case 'upcoming':
+            response = await tmdbService.getUpcomingMovies(page);
+            break;
+          default:
+            response = await tmdbService.getPopularMovies(page);
+        }
       }
       
       if (page === 1) {
         setMovies(response.results);
       } else {
-        setMovies((prev) => [...prev, ...response.results]);
+        setMovies(prev => [...prev, ...response.results]);
       }
       
       setTotalPages(response.total_pages);
@@ -62,39 +68,37 @@ const Index = () => {
     } catch (error) {
       console.error('Failed to fetch movies:', error);
       toast({
-        title: "Error",
-        description: "Failed to load movies. Please check your API key.",
         variant: "destructive",
+        title: "Error",
+        description: "Failed to fetch movies. Please check your API key and try again.",
       });
     } finally {
       setLoading(false);
     }
-  }, [activeTab]);
+  };
 
-  // Fetch movies when search query changes
   useEffect(() => {
-    if (debouncedSearchQuery !== searchQuery) return;
-    setCurrentPage(1);
-    fetchMovies(1, debouncedSearchQuery);
-  }, [debouncedSearchQuery, activeTab, fetchMovies]);
+    if (debouncedSearchQuery !== undefined) {
+      fetchMovies(debouncedSearchQuery, activeCategory, 1);
+    }
+  }, [debouncedSearchQuery, activeCategory, hasApiKey]);
 
-  // Initial load
   useEffect(() => {
     if (hasApiKey && !searchQuery) {
-      fetchMovies(1);
+      fetchMovies('', activeCategory, 1);
     }
-  }, [hasApiKey, activeTab, fetchMovies]);
+  }, [hasApiKey, activeCategory]);
 
   const handleLoadMore = () => {
     if (currentPage < totalPages && !loading) {
-      fetchMovies(currentPage + 1, debouncedSearchQuery);
+      fetchMovies(debouncedSearchQuery, activeCategory, currentPage + 1);
     }
   };
 
-  const handleTabChange = (tab: 'popular' | 'trending') => {
-    setActiveTab(tab);
+  const handleCategoryChange = (category: string) => {
+    setActiveCategory(category);
+    setSearchQuery('');
     setCurrentPage(1);
-    setMovies([]);
   };
 
   const handleMovieClick = (movie: Movie) => {
@@ -107,13 +111,13 @@ const Index = () => {
 
   if (!hasApiKey) {
     return (
-      <div className="min-h-screen bg-gradient-dark">
+      <div className="min-h-screen bg-background">
         <Header onSearch={setSearchQuery} searchQuery={searchQuery} onApiKeyChange={checkApiKey} />
         <main className="container py-12">
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
             <Film className="h-24 w-24 text-cinema-gold" />
             <div className="space-y-4 max-w-md">
-              <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold text-cinema-gold">
                 Welcome to CinemaExplorer
               </h1>
               <p className="text-muted-foreground">
@@ -133,41 +137,27 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
+    <div className="min-h-screen bg-background">
       <Header onSearch={setSearchQuery} searchQuery={searchQuery} onApiKeyChange={checkApiKey} />
       
       <main className="container py-8">
         {/* Hero Section */}
         {!searchQuery && (
-          <div className="text-center py-12 space-y-6">
+          <div className="text-center py-12 space-y-8">
             <div className="space-y-4">
-              <h1 className="text-4xl md:text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold text-cinema-gold">
                 Discover Amazing Movies
-              </h1>
+              </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Explore the world of cinema with popular and trending movies from around the globe
+                Explore movies by category. Find your next favorite film from popular, trending, top-rated, and upcoming releases.
               </p>
             </div>
-            
-            {/* Tab Navigation */}
-            <div className="flex justify-center gap-4 pt-8">
-              <Button
-                variant={activeTab === 'popular' ? 'default' : 'outline'}
-                onClick={() => handleTabChange('popular')}
-                className="gap-2"
-              >
-                <Sparkles className="h-4 w-4" />
-                Popular Movies
-              </Button>
-              <Button
-                variant={activeTab === 'trending' ? 'default' : 'outline'}
-                onClick={() => handleTabChange('trending')}
-                className="gap-2"
-              >
-                <TrendingUp className="h-4 w-4" />
-                Trending Now
-              </Button>
-            </div>
+
+            {/* Category Navigation */}
+            <MovieCategories 
+              activeCategory={activeCategory}
+              onCategoryChange={handleCategoryChange}
+            />
           </div>
         )}
 
@@ -205,7 +195,7 @@ const Index = () => {
                   onClick={handleLoadMore}
                   disabled={loading}
                   size="lg"
-                  className="gap-2"
+                  className="bg-cinema-gold text-background hover:bg-cinema-gold/90"
                 >
                   {loading ? 'Loading...' : 'Load More Movies'}
                 </Button>
@@ -220,7 +210,7 @@ const Index = () => {
                 No movies found
               </h3>
               <p className="text-muted-foreground">
-                Try adjusting your search terms or browse popular movies instead.
+                Try adjusting your search terms or browse different categories.
               </p>
             </div>
           )

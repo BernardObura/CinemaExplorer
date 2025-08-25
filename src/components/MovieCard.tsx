@@ -20,7 +20,7 @@ export function MovieCard({ movie, onClick }: MovieCardProps) {
 
   return (
     <Card 
-      className="group relative overflow-hidden bg-gradient-card border-border/40 hover:border-cinema-gold/50 transition-all duration-300 hover:shadow-card hover:scale-105 cursor-pointer"
+      className="group relative overflow-hidden bg-solid-card border-border hover:border-cinema-gold transition-all duration-300 hover:shadow-card hover:scale-105 cursor-pointer"
       onClick={() => onClick(movie)}
     >
       <div className="aspect-[2/3] relative overflow-hidden">
@@ -51,10 +51,10 @@ export function MovieCard({ movie, onClick }: MovieCardProps) {
           </Badge>
         )}
 
-        {/* Play Button Overlay */}
+        {/* Enhanced Play Button Overlay */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="bg-cinema-gold/90 text-cinema-blue p-3 rounded-full transform scale-75 group-hover:scale-100 transition-transform duration-300">
-            <Play className="h-6 w-6 fill-current" />
+          <div className="bg-cinema-gold text-background p-4 rounded-full transform scale-75 group-hover:scale-100 transition-all duration-300 shadow-glow">
+            <Play className="h-8 w-8 fill-current ml-1" />
           </div>
         </div>
       </div>
