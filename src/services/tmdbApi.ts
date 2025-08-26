@@ -30,6 +30,16 @@ export interface MovieDetails extends Movie {
   tagline: string;
 }
 
+export interface MovieVideo {
+  id: string;
+  key: string;
+  name: string;
+  site: string;
+  type: string;
+  official: boolean;
+  published_at: string;
+}
+
 export interface TMDBResponse<T> {
   page: number;
   results: T[];
@@ -97,6 +107,10 @@ class TMDBService {
 
   async getTrendingMovies(timeWindow: 'day' | 'week' = 'week', page: number = 1): Promise<TMDBResponse<Movie>> {
     return this.makeRequest(`/trending/movie/${timeWindow}?page=${page}`);
+  }
+
+  async getMovieVideos(movieId: number): Promise<{ results: MovieVideo[] }> {
+    return this.makeRequest(`/movie/${movieId}/videos`);
   }
 
   getImageUrl(path: string | null, size: 'w200' | 'w300' | 'w400' | 'w500' | 'w780' | 'original' = 'w500'): string | null {

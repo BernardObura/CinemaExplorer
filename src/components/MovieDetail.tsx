@@ -4,7 +4,8 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Movie, MovieDetails, tmdbService } from '@/services/tmdbApi';
+import { Movie, MovieDetails, MovieVideo, tmdbService } from '@/services/tmdbApi';
+import { VideoPlayer } from '@/components/VideoPlayer';
 import { toast } from '@/components/ui/use-toast';
 
 interface MovieDetailProps {
@@ -16,6 +17,8 @@ interface MovieDetailProps {
 export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
   const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
   const [loading, setLoading] = useState(false);
+  const [videos, setVideos] = useState<MovieVideo[]>([]);
+  const [showVideoPlayer, setShowVideoPlayer] = useState(false);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -23,8 +26,12 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
       
       setLoading(true);
       try {
-        const details = await tmdbService.getMovieDetails(movie.id);
+        const [details, videosResponse] = await Promise.all([
+          tmdbService.getMovieDetails(movie.id),
+          tmdbService.getMovieVideos(movie.id)
+        ]);
         setMovieDetails(details);
+        setVideos(videosResponse.results);
       } catch (error) {
         console.error('Failed to fetch movie details:', error);
         toast({
@@ -119,7 +126,7 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
                     {movie.title}
                   </h1>
                   {movieDetails?.tagline && (
-                    <p className="text-cinema-gold italic text-sm">
+                    <p className="text-netflix-red italic text-sm">
                       "{movieDetails.tagline}"
                     </p>
                   )}
@@ -128,7 +135,7 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
                 {/* Meta Info */}
                 <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 text-cinema-gold fill-current" />
+                    <Star className="h-4 w-4 text-netflix-red fill-current" />
                     <span>{rating}</span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -164,6 +171,18 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
                       ))}
                     </div>
                   )
+                )}
+
+                {/* Play Trailer Button */}
+                {videos.length > 0 && (
+                  <Button
+                    onClick={() => setShowVideoPlayer(true)}
+                    size="lg"
+                    className="bg-netflix-red hover:bg-netflix-red/90 text-white"
+                  >
+                    <Play className="h-5 w-5 mr-2 fill-current" />
+                    Watch Trailer
+                  </Button>
                 )}
 
                 {/* Overview */}
@@ -209,6 +228,13 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
           </div>
         </div>
       </DialogContent>
+
+      {/* Video Player Modal */}
+      <VideoPlayer
+        videos={videos}
+        isOpen={showVideoPlayer}
+        onClose={() => setShowVideoPlayer(false)}
+      />
     </Dialog>
   );
 }
