@@ -80,10 +80,10 @@ export function MovieCard({ movie, onClick }: MovieCardProps) {
               onClick={handlePlayClick}
               disabled={loadingVideos}
               size="sm"
-              className="bg-netflix-red hover:bg-netflix-red/90 text-white rounded-full px-4 py-2 transform scale-90 group-hover:scale-100 transition-all duration-300"
+              className="bg-netflix-red hover:bg-netflix-red/90 text-white rounded-full px-4 py-2 transform scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg"
             >
               <Play className="h-4 w-4 mr-2 fill-current" />
-              {loadingVideos ? 'Loading...' : 'Play'}
+              {loadingVideos ? 'Loading...' : 'Trailer'}
             </Button>
             <Button
               onClick={(e) => {

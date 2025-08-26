@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { X, Star, Calendar, Clock, DollarSign, Play } from 'lucide-react';
+import { X, Star, Calendar, Clock, DollarSign, Play, AlertCircle } from 'lucide-react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Movie, MovieDetails, MovieVideo, tmdbService } from '@/services/tmdbApi';
 import { VideoPlayer } from '@/components/VideoPlayer';
 import { toast } from '@/components/ui/use-toast';
@@ -174,16 +175,26 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
                 )}
 
                 {/* Play Trailer Button */}
-                {videos.length > 0 && (
-                  <Button
-                    onClick={() => setShowVideoPlayer(true)}
-                    size="lg"
-                    className="bg-netflix-red hover:bg-netflix-red/90 text-white"
-                  >
-                    <Play className="h-5 w-5 mr-2 fill-current" />
-                    Watch Trailer
-                  </Button>
-                )}
+                <div className="flex flex-wrap gap-3">
+                  {videos.length > 0 && (
+                    <Button
+                      onClick={() => setShowVideoPlayer(true)}
+                      size="lg"
+                      className="bg-netflix-red hover:bg-netflix-red/90 text-white shadow-lg"
+                    >
+                      <Play className="h-5 w-5 mr-2 fill-current" />
+                      Watch Trailer
+                    </Button>
+                  )}
+                  
+                  <Alert className="flex-1 min-w-full">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      <strong>Note:</strong> Only trailers and movie information are available. 
+                      For full movies, check streaming services or local theaters.
+                    </AlertDescription>
+                  </Alert>
+                </div>
 
                 {/* Overview */}
                 <div>
