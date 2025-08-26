@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 import { MovieCard } from '@/components/MovieCard';
 import { MovieDetail } from '@/components/MovieDetail';
 import { LoadingGrid } from '@/components/LoadingGrid';
@@ -115,10 +116,10 @@ const Index = () => {
       <div className="min-h-screen bg-background">
         <Header onSearch={setSearchQuery} searchQuery={searchQuery} onApiKeyChange={checkApiKey} />
         <main className="container py-12">
-          <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-            <Film className="h-24 w-24 text-cinema-gold" />
+            <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
+              <Film className="h-24 w-24 text-netflix-red" />
             <div className="space-y-4 max-w-md">
-              <h1 className="text-3xl font-bold text-cinema-gold">
+              <h1 className="text-3xl font-bold text-netflix-red">
                 Welcome to CinemaExplorer
               </h1>
               <p className="text-muted-foreground">
@@ -146,7 +147,7 @@ const Index = () => {
         {!searchQuery && (
           <div className="text-center py-12 space-y-8">
             <div className="space-y-4">
-              <h2 className="text-4xl font-bold text-cinema-gold">
+              <h2 className="text-4xl font-bold text-netflix-red">
                 Discover Amazing Movies
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -196,7 +197,7 @@ const Index = () => {
                   onClick={handleLoadMore}
                   disabled={loading}
                   size="lg"
-                  className="bg-cinema-gold text-background hover:bg-cinema-gold/90"
+                  className="bg-netflix-red text-white hover:bg-netflix-red/90"
                 >
                   {loading ? 'Loading...' : 'Load More Movies'}
                 </Button>
@@ -224,6 +225,8 @@ const Index = () => {
         isOpen={!!selectedMovie}
         onClose={handleCloseDetail}
       />
+      
+      <Footer />
     </div>
   );
 };

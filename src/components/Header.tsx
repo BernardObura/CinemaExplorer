@@ -35,20 +35,29 @@ export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-2">
-            <Film className="h-6 w-6 text-cinema-gold" />
+            <Film className="h-6 w-6 text-netflix-red" />
             <h1 className="text-xl font-bold text-foreground">CinemaExplorer</h1>
           </div>
         </div>
 
         <div className="flex-1 max-w-md mx-8">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder="Search movies..."
-              value={searchQuery}
-              onChange={(e) => onSearch(e.target.value)}
-              className="pl-10 bg-muted border-border"
-            />
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder="Search movies..."
+                value={searchQuery}
+                onChange={(e) => onSearch(e.target.value)}
+                className="pl-10 bg-muted border-border"
+                onKeyDown={(e) => e.key === 'Enter' && onSearch(searchQuery)}
+              />
+            </div>
+            <Button 
+              onClick={() => onSearch(searchQuery)}
+              className="bg-netflix-red hover:bg-netflix-red/90 text-white px-6"
+            >
+              Search
+            </Button>
           </div>
         </div>
 
@@ -73,7 +82,7 @@ export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
                       href="https://www.themoviedb.org/settings/api" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="text-cinema-gold hover:underline"
+                      className="text-netflix-red hover:underline"
                     >
                       TMDB
                     </a>

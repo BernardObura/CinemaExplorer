@@ -2,46 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Cinema Movie Explorer Design System */
+/* Netflix-inspired Cinema Design System */
 
 @layer base {
   :root {
-    /* Cinema Dark Theme - Solid colors */
-    --background: 15 15% 8%;
-    --foreground: 210 40% 98%;
+    /* Netflix Dark Theme - Solid colors */
+    --background: 0 0% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 20 20% 12%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 20 20% 12%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 45 95% 58%;
-    --primary-foreground: 15 15% 8%;
+    --primary: 0 87% 57%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 20 15% 18%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 20 10% 16%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 260 85% 55%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 0 87% 57%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 75% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 20 15% 22%;
-    --input: 20 10% 16%;
-    --ring: 45 95% 58%;
+    --border: 0 0% 22%;
+    --input: 0 0% 16%;
+    --ring: 0 87% 57%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Cinema specific colors - Solid */
-    --cinema-gold: 45 95% 58%;
-    --cinema-blue: 220 85% 25%;
-    --cinema-purple: 260 85% 55%;
-    --cinema-gray: 20 10% 16%;
+    /* Netflix specific colors - Solid */
+    --netflix-red: 0 87% 57%;
+    --netflix-dark: 0 0% 8%;
+    --netflix-gray: 0 0% 16%;
+    --netflix-light-gray: 0 0% 65%;
     
     /* Solid backgrounds */
     --solid-primary: hsl(var(--primary));
@@ -60,38 +60,38 @@
 
   .light {
     --background: 0 0% 98%;
-    --foreground: 220 30% 8%;
+    --foreground: 0 0% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 30% 8%;
+    --card-foreground: 0 0% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 8%;
+    --popover-foreground: 0 0% 8%;
 
-    --primary: 45 85% 45%;
+    --primary: 0 87% 57%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 94%;
-    --secondary-foreground: 220 30% 8%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 8%;
 
-    --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 47%;
 
-    --accent: 260 85% 55%;
+    --accent: 0 87% 57%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 75% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 88%;
-    --input: 214 32% 91%;
-    --ring: 45 85% 45%;
+    --border: 0 0% 88%;
+    --input: 0 0% 91%;
+    --ring: 0 87% 57%;
 
-    /* Cinema specific colors - Light mode */
-    --cinema-gold: 45 85% 45%;
-    --cinema-blue: 220 85% 25%;
-    --cinema-purple: 260 85% 55%;
-    --cinema-gray: 210 40% 96%;
+    /* Netflix specific colors - Light mode */
+    --netflix-red: 0 87% 57%;
+    --netflix-dark: 0 0% 15%;
+    --netflix-gray: 0 0% 96%;
+    --netflix-light-gray: 0 0% 47%;
     
     /* Solid backgrounds - Light mode */
     --solid-primary: hsl(var(--primary));
@@ -111,6 +111,6 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter;
   }
 }

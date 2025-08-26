@@ -18,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'inter': ['Inter', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -62,11 +65,11 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				cinema: {
-					gold: 'hsl(var(--cinema-gold))',
-					blue: 'hsl(var(--cinema-blue))',
-					purple: 'hsl(var(--cinema-purple))',
-					gray: 'hsl(var(--cinema-gray))'
+				netflix: {
+					red: 'hsl(var(--netflix-red))',
+					dark: 'hsl(var(--netflix-dark))',
+					gray: 'hsl(var(--netflix-gray))',
+					'light-gray': 'hsl(var(--netflix-light-gray))'
 				}
 			},
 			backgroundImage: {
