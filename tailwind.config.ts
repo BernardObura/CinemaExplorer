@@ -19,6 +19,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
+				'outfit': ['Outfit', 'sans-serif'],
 				'inter': ['Inter', 'sans-serif'],
 			},
 			colors: {

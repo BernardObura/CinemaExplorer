@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import { tmdbService } from '@/services/tmdbApi';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   onSearch: (query: string) => void;
@@ -17,6 +18,7 @@ interface HeaderProps {
 export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [apiKey, setApiKey] = useState(tmdbService.getApiKey() || '');
+  const navigate = useNavigate();
 
   const handleApiKeySubmit = () => {
     if (apiKey.trim()) {
@@ -34,10 +36,13 @@ export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
+          <button 
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-2 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <Film className="h-6 w-6 text-netflix-red" />
             <h1 className="text-xl font-bold text-foreground">CinemaExplorer</h1>
-          </div>
+          </button>
         </div>
 
         <div className="flex-1 max-w-md mx-8">
