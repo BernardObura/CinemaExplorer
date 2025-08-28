@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Search, Settings, Save, Film } from 'lucide-react';
+import { Search, Settings, Save, Film, LogOut, User } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/hooks/use-toast';
 import { tmdbService } from '@/services/tmdbApi';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { useAuth } from '@/components/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
@@ -19,6 +21,7 @@ export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [apiKey, setApiKey] = useState(tmdbService.getApiKey() || '');
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
   const handleApiKeySubmit = () => {
     if (apiKey.trim()) {
@@ -30,6 +33,14 @@ export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
       setIsSettingsOpen(false);
       onApiKeyChange?.();
     }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({
+      title: "Signed out",
+      description: "You have been signed out successfully.",
+    });
   };
 
   return (
@@ -68,6 +79,31 @@ export function Header({ onSearch, searchQuery, onApiKeyChange }: HeaderProps) {
 
         <div className="flex items-center space-x-2">
           <ThemeToggle />
+          
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="hover:bg-accent hover:text-accent-foreground">
+                  <User className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button 
+              onClick={() => navigate('/auth')} 
+              variant="outline"
+              className="border-netflix-red text-netflix-red hover:bg-netflix-red hover:text-white"
+            >
+              Sign In
+            </Button>
+          )}
+          
           <Dialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon" className="hover:bg-accent hover:text-accent-foreground">

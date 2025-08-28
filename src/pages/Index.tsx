@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { MovieCard } from '@/components/MovieCard';
@@ -7,12 +8,17 @@ import { LoadingGrid } from '@/components/LoadingGrid';
 import { MovieCategories } from '@/components/MovieCategories';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { AlertCircle, Film } from 'lucide-react';
 import { Movie, tmdbService } from '@/services/tmdbApi';
+import { useAuth } from '@/components/AuthProvider';
 import { useDebounce } from '@/hooks/useDebounce';
 import { toast } from '@/hooks/use-toast';
 
 const Index = () => {
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  
   // Movie discovery application with categorized browsing
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
@@ -25,6 +31,13 @@ const Index = () => {
 
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
+  // Check for authentication
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate('/auth');
+    }
+  }, [user, authLoading, navigate]);
+
   // Check API key
   const checkApiKey = () => {
     const apiKey = tmdbService.getApiKey();
@@ -35,7 +48,7 @@ const Index = () => {
     checkApiKey();
   }, []);
 
-  const fetchMovies = async (query: string = '', category: string = 'popular', page: number = 1) => {
+  const fetchMovies = async (query: string = '', category: string = 'popular', page: number = 1, resetMovies: boolean = true) => {
     if (!hasApiKey) return;
     
     setLoading(true);
@@ -59,7 +72,7 @@ const Index = () => {
         }
       }
       
-      if (page === 1) {
+      if (resetMovies || page === 1) {
         setMovies(response.results);
       } else {
         setMovies(prev => [...prev, ...response.results]);
@@ -81,19 +94,26 @@ const Index = () => {
 
   useEffect(() => {
     if (debouncedSearchQuery !== undefined) {
-      fetchMovies(debouncedSearchQuery, activeCategory, 1);
+      fetchMovies(debouncedSearchQuery, activeCategory, 1, true);
     }
   }, [debouncedSearchQuery, activeCategory, hasApiKey]);
 
   useEffect(() => {
     if (hasApiKey && !searchQuery) {
-      fetchMovies('', activeCategory, 1);
+      fetchMovies('', activeCategory, 1, true);
     }
   }, [hasApiKey, activeCategory]);
 
   const handleLoadMore = () => {
     if (currentPage < totalPages && !loading) {
-      fetchMovies(debouncedSearchQuery, activeCategory, currentPage + 1);
+      fetchMovies(debouncedSearchQuery, activeCategory, currentPage + 1, false);
+    }
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page !== currentPage && page >= 1 && page <= totalPages) {
+      fetchMovies(debouncedSearchQuery, activeCategory, page, true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -110,6 +130,20 @@ const Index = () => {
   const handleCloseDetail = () => {
     setSelectedMovie(null);
   };
+
+  // Show loading screen while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-netflix-red"></div>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated (handled by useEffect above)
+  if (!user) {
+    return null;
+  }
 
   if (!hasApiKey) {
     return (
@@ -192,7 +226,7 @@ const Index = () => {
 
             {/* Load More Button */}
             {currentPage < totalPages && (
-              <div className="flex justify-center">
+              <div className="flex justify-center mb-8">
                 <Button
                   onClick={handleLoadMore}
                   disabled={loading}
@@ -201,6 +235,114 @@ const Index = () => {
                 >
                   {loading ? 'Loading...' : 'Load More Movies'}
                 </Button>
+              </div>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center">
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious 
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        className={currentPage <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-accent'}
+                      />
+                    </PaginationItem>
+                    
+                    {/* Show first page */}
+                    {currentPage > 3 && (
+                      <>
+                        <PaginationItem>
+                          <PaginationLink 
+                            onClick={() => handlePageChange(1)}
+                            className="cursor-pointer hover:bg-accent"
+                          >
+                            1
+                          </PaginationLink>
+                        </PaginationItem>
+                        {currentPage > 4 && (
+                          <PaginationItem>
+                            <span className="px-3 py-2">...</span>
+                          </PaginationItem>
+                        )}
+                      </>
+                    )}
+                    
+                    {/* Show current page and surrounding pages */}
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      const pageNum = Math.max(1, Math.min(currentPage - 2 + i, totalPages - 4 + i));
+                      if (pageNum < 1 || pageNum > totalPages) return null;
+                      if (currentPage <= 3) {
+                        const page = i + 1;
+                        if (page > totalPages) return null;
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => handlePageChange(page)}
+                              isActive={page === currentPage}
+                              className="cursor-pointer hover:bg-accent"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      }
+                      if (currentPage >= totalPages - 2) {
+                        const page = totalPages - 4 + i;
+                        if (page < 1) return null;
+                        return (
+                          <PaginationItem key={page}>
+                            <PaginationLink
+                              onClick={() => handlePageChange(page)}
+                              isActive={page === currentPage}
+                              className="cursor-pointer hover:bg-accent"
+                            >
+                              {page}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      }
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(pageNum)}
+                            isActive={pageNum === currentPage}
+                            className="cursor-pointer hover:bg-accent"
+                          >
+                            {pageNum}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    })}
+                    
+                    {/* Show last page */}
+                    {currentPage < totalPages - 2 && (
+                      <>
+                        {currentPage < totalPages - 3 && (
+                          <PaginationItem>
+                            <span className="px-3 py-2">...</span>
+                          </PaginationItem>
+                        )}
+                        <PaginationItem>
+                          <PaginationLink
+                            onClick={() => handlePageChange(totalPages)}
+                            className="cursor-pointer hover:bg-accent"
+                          >
+                            {totalPages}
+                          </PaginationLink>
+                        </PaginationItem>
+                      </>
+                    )}
+                    
+                    <PaginationItem>
+                      <PaginationNext 
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        className={currentPage >= totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer hover:bg-accent'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </div>
             )}
           </>

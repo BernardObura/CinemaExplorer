@@ -99,7 +99,7 @@ export function VideoPlayer({ videos, isOpen, onClose }: VideoPlayerProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-5xl p-0 bg-black border-0">
+      <DialogContent className="max-w-5xl w-[95vw] max-h-[95vh] p-0 bg-black border-0">
         <div className="relative">
           {/* Close Button - Multiple ways to close */}
           <div className="absolute top-4 right-4 z-50 flex gap-2">

@@ -72,7 +72,7 @@ export function MovieDetail({ movie, isOpen, onClose }: MovieDetailProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0 overflow-hidden">
+      <DialogContent className="max-w-5xl w-[95vw] max-h-[95vh] p-6 overflow-hidden">
         <div className="relative">
           {/* Close Button */}
           <Button
