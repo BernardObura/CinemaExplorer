@@ -97,11 +97,11 @@ export function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md">
-        <div className="flex items-center justify-center mb-8">
-          <Film className="h-8 w-8 text-netflix-red mr-2" />
-          <h1 className="text-2xl font-bold text-foreground">CinemaExplorer</h1>
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+      <div className="w-full max-w-sm sm:max-w-md">
+        <div className="flex items-center justify-center mb-6 sm:mb-8">
+          <Film className="h-6 w-6 sm:h-8 sm:w-8 text-netflix-red mr-2" />
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground">CinemaExplorer</h1>
         </div>
         
         <Card>
