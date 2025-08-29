@@ -67,23 +67,23 @@ export function MovieCard({ movie, onClick }: MovieCardProps) {
         
         {/* Rating Badge */}
         {movie.vote_average > 0 && (
-          <Badge className="absolute top-2 left-2 bg-black/80 text-netflix-red border-netflix-red/30">
-            <Star className="h-3 w-3 mr-1 fill-current" />
+          <Badge className="absolute top-1 sm:top-2 left-1 sm:left-2 bg-black/80 text-netflix-red border-netflix-red/30 text-xs">
+            <Star className="h-2 w-2 sm:h-3 sm:w-3 mr-1 fill-current" />
             {rating}
           </Badge>
         )}
 
         {/* Action Buttons Overlay */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="flex gap-3">
+          <div className="flex gap-2 sm:gap-3">
             <Button
               onClick={handlePlayClick}
               disabled={loadingVideos}
               size="sm"
-              className="bg-netflix-red hover:bg-netflix-red/90 text-white rounded-full px-4 py-2 transform scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg"
+              className="bg-netflix-red hover:bg-netflix-red/90 text-white rounded-full px-2 sm:px-4 py-1 sm:py-2 transform scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg text-xs sm:text-sm"
             >
-              <Play className="h-4 w-4 mr-2 fill-current" />
-              {loadingVideos ? 'Loading...' : 'Trailer'}
+              <Play className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2 fill-current" />
+              <span className="hidden sm:inline">{loadingVideos ? 'Loading...' : 'Trailer'}</span>
             </Button>
             <Button
               onClick={(e) => {
@@ -92,27 +92,27 @@ export function MovieCard({ movie, onClick }: MovieCardProps) {
               }}
               size="sm"
               variant="secondary"
-              className="bg-white/20 hover:bg-white/30 text-white border-white/30 rounded-full px-4 py-2 transform scale-90 group-hover:scale-100 transition-all duration-300"
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30 rounded-full px-2 sm:px-4 py-1 sm:py-2 transform scale-90 group-hover:scale-100 transition-all duration-300 text-xs sm:text-sm"
             >
-              <Eye className="h-4 w-4 mr-2" />
-              Details
+              <Eye className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Details</span>
             </Button>
           </div>
         </div>
       </div>
 
-      <div className="p-4 space-y-2">
-        <h3 className="font-semibold text-sm line-clamp-2 text-foreground leading-tight">
+      <div className="p-2 sm:p-3 lg:p-4 space-y-1 sm:space-y-2">
+        <h3 className="font-semibold text-xs sm:text-sm line-clamp-2 text-foreground leading-tight">
           {movie.title}
         </h3>
         
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Calendar className="h-3 w-3" />
+        <div className="flex items-center gap-1 sm:gap-2 text-xs text-muted-foreground">
+          <Calendar className="h-3 w-3 flex-shrink-0" />
           <span>{releaseYear}</span>
         </div>
 
         {movie.overview && (
-          <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
+          <p className="hidden sm:block text-xs text-muted-foreground line-clamp-2 leading-relaxed">
             {movie.overview}
           </p>
         )}

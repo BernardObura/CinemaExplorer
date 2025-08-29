@@ -176,15 +176,15 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Header onSearch={setSearchQuery} searchQuery={searchQuery} onApiKeyChange={checkApiKey} />
       
-      <main className="container py-8">
+      <main className="container px-4 sm:px-6 py-6 sm:py-8">
         {/* Hero Section */}
         {!searchQuery && (
-          <div className="text-center py-12 space-y-8">
-            <div className="space-y-4">
-              <h2 className="text-4xl font-bold text-netflix-red">
+          <div className="text-center py-8 sm:py-12 space-y-6 sm:space-y-8">
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-netflix-red">
                 Discover Amazing Movies
               </h2>
-              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto px-4">
                 Explore movies by category. Find your next favorite film from popular, trending, top-rated, and upcoming releases.
               </p>
             </div>
@@ -199,11 +199,11 @@ const Index = () => {
 
         {/* Search Results Header */}
         {searchQuery && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-foreground">
+          <div className="mb-6 sm:mb-8 px-4 sm:px-0">
+            <h2 className="text-xl sm:text-2xl font-bold text-foreground">
               Search results for "{searchQuery}"
             </h2>
-            <p className="text-muted-foreground">
+            <p className="text-sm sm:text-base text-muted-foreground">
               {movies.length > 0 ? `Found ${movies.length} movies` : 'No movies found'}
             </p>
           </div>
@@ -214,7 +214,7 @@ const Index = () => {
           <LoadingGrid />
         ) : movies.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mb-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
               {movies.map((movie) => (
                 <MovieCard
                   key={movie.id}
